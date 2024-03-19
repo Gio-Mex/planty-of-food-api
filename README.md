@@ -47,35 +47,6 @@ npm run mockDB
 
 These APIs are designed for inserting, updating, searching and deleting product, customer and order data.
 
-### Users
-
-**Create a user**
-
-- Endpoint: `/users`
-- Method: `POST`
-- Request Body: {name: 'name', surname: 'surname', email: 'email' }
-
-**Get all users**
-
-- Endpoint: `/users`
-- Method: `GET`
-
-**Get user by email**
-
-- Endpoint: `/users/:email`
-- Method: `GET`
-
-**Update user**
-
-- Endpoint: `/users/:email`
-- Method: `PUT`
-- Request Body: {name: 'name', surname: 'surname', email: 'email' }
-
-**Delete user**
-
-- Endpoint: `/users/:email`
-- Method: `DELETE`
-
 ### Products
 
 **Create a product**
@@ -103,6 +74,35 @@ These APIs are designed for inserting, updating, searching and deleting product,
 **Delete a product**
 
 - Endpoint: `/products/:name`
+- Method: `DELETE`
+
+### Users
+
+**Create a user**
+
+- Endpoint: `/users`
+- Method: `POST`
+- Request Body: {name: 'name', surname: 'surname', email: 'email' }
+
+**Get all users**
+
+- Endpoint: `/users`
+- Method: `GET`
+
+**Get user by email**
+
+- Endpoint: `/users/:email`
+- Method: `GET`
+
+**Update user**
+
+- Endpoint: `/users/:email`
+- Method: `PUT`
+- Request Body: {name: 'name', surname: 'surname', email: 'email' }
+
+**Delete user**
+
+- Endpoint: `/users/:email`
 - Method: `DELETE`
 
 ### Orders
