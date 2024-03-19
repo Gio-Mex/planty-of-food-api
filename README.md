@@ -35,7 +35,7 @@ npm run serve
 Navigate to http://localhost:3000/
 
 If everything has been installed correctly you should see the welcome message: "Welcome to Planty of Food APIs".
-(If you're a dev and you want to use Nodemon type `npm run dev`)
+(If you're a dev and you want to use Nodemon type `npm run dev`, while if you want to do tests type `npm run test`).
 
 The APIs are already working but if you want to use a ready-made dummy server, type the command:
 
