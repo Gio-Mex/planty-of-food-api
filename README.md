@@ -17,7 +17,7 @@ If you're using OS X or Windows, use one of the installers from the [Node.js dow
 Open terminal and clone the Github repo:
 
 ```bash
-npm run mockDB
+git clone https://github.com/Gio-Mex/planty-of-food-api.git
 ```
 
 Then, you can install NPM packages:
