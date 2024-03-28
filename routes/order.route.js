@@ -9,9 +9,8 @@ import {
 } from "../controllers/order.controller.js";
 
 router.get("/", getAllOrders);
-router.get("/:orderID", getOrder); //get order by ID
-router.get("/products/:product", getOrder); //get order by product
-router.get("/date/:date", getOrder); //get order by date
+router.get("/:filter", getOrder); //get order by ID or product or date
+
 
 router.post("/", createOrder);
 

@@ -22,6 +22,7 @@ describe("Product Controller Tests", () => {
   beforeEach(() => {
     mockReq = {
       body: {
+        productID: 1,
         name: "Test Product",
       },
     };
@@ -35,7 +36,7 @@ describe("Product Controller Tests", () => {
     jsonStub.returns(mockRes);
     findStub = sinon.stub(Product, "find");
     findOneStub = sinon.stub(Product, "findOne");
-    createStub = sinon.stub(Product, "create");
+    createStub = sinon.stub(Product, "create").resolves({ productID: 1, ...mockReq.body });
   });
 
   afterEach(() => {
@@ -44,14 +45,15 @@ describe("Product Controller Tests", () => {
 
   it("should create a new product if it does not already exist", async () => {
     findOneStub.returns(null);
-    createStub.returns({ name: "Test Product" });
+    const countDocumentsStub = sinon.stub(Product, "countDocuments").resolves(0);
 
     await createProduct(mockReq, mockRes);
 
+    expect(countDocumentsStub.calledOnce).to.be.true;
     expect(findOneStub.calledOnce).to.be.true;
     expect(createStub.calledOnce).to.be.true;
     expect(statusStub.calledWith(201)).to.be.true;
-    expect(jsonStub.calledWith({ name: "Test Product" })).to.be.true;
+    expect(jsonStub.calledWith({ productID: 1, name: "Test Product" })).to.be.true;
   });
 
   it("should return all products when the collection is not empty", async () => {
@@ -65,60 +67,62 @@ describe("Product Controller Tests", () => {
       .to.be.true;
   });
 
-  it("should return a product by name", async () => {
-    mockReq.params = { name: "Test Product" };
-    findOneStub.returns({ name: "Test Product" });
+  it("should return a product by ID", async () => {
+    mockReq.params = { productID : 1 };
+    findOneStub.returns({ productID: 1, name: "Test Product" });
 
     await getProduct(mockReq, mockRes);
 
-    expect(findOneStub.calledOnceWith({ name: "Test Product" })).to.be.true;
+    expect(findOneStub.calledOnceWith({ productID : 1 })).to.be.true;
     expect(statusStub.calledWith(200)).to.be.true;
-    expect(jsonStub.calledWith({ name: "Test Product" })).to.be.true;
+    expect(jsonStub.calledWith({ productID: 1, name: "Test Product" })).to.be.true;
   });
 
   it("should update an existing product", async () => {
     const mockReq = {
       params: {
+        productID: 1,
         name: "Test Product",
       },
       body: {
+        productID: 1,
         name: "Updated Product",
       },
     };
     const findOneAndUpdateStub = sinon
       .stub(Product, "findOneAndUpdate")
-      .resolves({ name: "Updated Product" });
+      .resolves({productID: 1, name: "Updated Product" });
 
     await updateProduct(mockReq, mockRes);
 
     expect(
       findOneAndUpdateStub.calledOnceWith(
-        { name: "Test Product" },
+        { productID: 1 },
         { name: "Updated Product" },
         { new: true }
       )
     ).to.be.true;
     expect(mockRes.status.calledWith(200)).to.be.true;
-    expect(mockRes.json.calledWith({ name: "Updated Product" })).to.be.true;
+    expect(mockRes.json.calledWith({productID: 1, name: "Updated Product" })).to.be.true;
   });
 
   it("should delete an existing product", async () => {
     const mockReq = {
       params: {
-        name: "Test Product",
+        productID: 1
       },
     };
     const findOneAndDeleteStub = sinon
       .stub(Product, "findOneAndDelete")
-      .resolves({ name: "Test Product" });
+      .resolves({ productID : 1});
 
     await deleteProduct(mockReq, mockRes);
 
-    expect(findOneAndDeleteStub.calledOnceWith({ name: "Test Product" })).to.be
+    expect(findOneAndDeleteStub.calledOnceWith({ productID : 1 })).to.be
       .true;
     expect(mockRes.status.calledWith(200)).to.be.true;
     expect(
-      mockRes.json.calledWith({ message: "Test Product deleted successfully" })
+      mockRes.json.calledWith({ message: "Product deleted successfully" })
     ).to.be.true;
   });
 
@@ -135,12 +139,12 @@ describe("Product Controller Tests", () => {
   });
 
   it("should return status 404 if the product does not exist", async () => {
-    mockReq.params = { name: "Test Product" };
+    mockReq.params = { productID: 1 };
     findOneStub.returns(null);
 
     await getProduct(mockReq, mockRes);
 
-    expect(findOneStub.calledOnceWith({ name: "Test Product" })).to.be.true;
+    expect(findOneStub.calledOnceWith({ productID: 1 })).to.be.true;
     expect(statusStub.calledWith(404)).to.be.true;
     expect(jsonStub.calledWith({ message: "Product not found" })).to.be.true;
   });

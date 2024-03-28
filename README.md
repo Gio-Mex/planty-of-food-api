@@ -60,20 +60,20 @@ These APIs are designed for inserting, updating, searching and deleting product,
 - Endpoint: `/products`
 - Method: `GET`
 
-**Get a product by name**
+**Get a product by ID**
 
-- Endpoint: `/products/:name`
+- Endpoint: `/products/:productID`
 - Method: `GET`
 
 **Update a product**
 
-- Endpoint: `/products/:name`
+- Endpoint: `/products/:productID`
 - Method: `PUT`
 - Request Body: {name: 'new product name'}
 
 **Delete a product**
 
-- Endpoint: `/products/:name`
+- Endpoint: `/products/:productID`
 - Method: `DELETE`
 
 ### Users
@@ -139,22 +139,22 @@ These APIs are designed for inserting, updating, searching and deleting product,
 
 **Get an order by ID**
 
-- Endpoint: `/orders/:id`
+- Endpoint: `/orders/:orderID`
 - Method: `GET`
 
 **Get orders by date**
 
-- Endpoint: `/orders/date/:date`
+- Endpoint: `/orders/:date`
 - Method: `GET`
 
 **Get orders by product**
 
-- Endpoint: `/orders/products/:name`
+- Endpoint: `/orders/:product`
 - Method: `GET`
 
 **Update an order**
 
-- Endpoint: `/orders/:id`
+- Endpoint: `/orders/:orderID`
 - Method: `PUT`
 - Request Body: {
   products: [
@@ -179,7 +179,7 @@ These APIs are designed for inserting, updating, searching and deleting product,
 
 **Delete an order**
 
-- Endpoint: `/orders/:id`
+- Endpoint: `/orders/:orderID`
 - Method: `DELETE`
 
 You can test APIs using tools like Thunder Client, Postman or Insomnia.

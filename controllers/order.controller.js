@@ -27,19 +27,21 @@ const getAllOrders = async (req, res) => {
 //Get order by ID, product or date
 const getOrder = async (req, res) => {
   try {
-    const { orderID, product, date } = req.params;
-    const result = await Order.find({
-      $or: [
-        { orderID: orderID },
-        { products: { $in: product } },
-        { date: date },
-      ],
-    });
+    const { filter } = req.params;
+    let result;
+    // Check if filter is a date in the format "DD-MM-YYYY"
+    if (/^\d{2}-\d{2}-\d{4}$/.test(filter)) {
+      result = await Order.find({ date: filter });
+      // Check if filter is a number
+    } else if (/\d/.test(filter)) {
+      result = await Order.findOne({ orderID: filter });
+    } else {
+      result = await Order.find({ products: { $in: filter } });
+    }
     if (result.length === 0) {
       return res.status(404).json({ message: "Order not found" });
     }
     res.status(200).json(result);
-    return result;
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -52,8 +54,8 @@ const updateOrder = async (req, res) => {
     const newOrder = req.body;
     const updatedOrder = await Order.findOneAndUpdate(
       { orderID: orderID },
-      newOrder,
-      { new: false }
+      { $set: newOrder },
+      { new: true }
     );
     if (!updatedOrder) {
       return res.status(404).json({ message: "Order not found" });

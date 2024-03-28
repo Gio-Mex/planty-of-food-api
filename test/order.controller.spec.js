@@ -49,7 +49,7 @@ describe("Order Controller Tests", () => {
     sinon.restore();
   });
 
-  it("should create a new order if it does not already exist", async () => {
+  it("should create a new order", async () => {
     const countDocumentsStub = sinon.stub(Order, "countDocuments").resolves(0);
     const createStub = sinon
       .stub(Order, "create")

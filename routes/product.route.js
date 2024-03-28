@@ -9,12 +9,12 @@ import {
 } from "../controllers/product.controller.js";
 
 router.get("/", getAllProducts);
-router.get("/:name", getProduct); //get product by name
+router.get("/:productID", getProduct); //get product by productID
 
 router.post("/", createProduct);
 
-router.put("/:name", updateProduct);
+router.put("/:productID", updateProduct);
 
-router.delete("/:name", deleteProduct);
+router.delete("/:productID", deleteProduct);
 
 export default router;

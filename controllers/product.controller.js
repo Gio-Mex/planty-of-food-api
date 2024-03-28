@@ -8,6 +8,7 @@ const createProduct = async (req, res) => {
     if (product) {
       return res.status(400).json({ message: "Product already exists" });
     }
+    req.body.productID = (await Product.countDocuments()) + 1;
     product = await Product.create(req.body);
     res.status(201).json(product);
   } catch (error) {
@@ -28,11 +29,11 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-//Get product by name
+//Get product by ID
 const getProduct = async (req, res) => {
   try {
-    const { name } = req.params;
-    const product = await Product.findOne({ name: name });
+    const { productID } = req.params;
+    const product = await Product.findOne({ productID: productID });
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -45,10 +46,10 @@ const getProduct = async (req, res) => {
 //Update product
 const updateProduct = async (req, res) => {
   try {
-    const { name } = req.params;
+    const { productID } = req.params;
     const newName = req.body.name;
     const updatedProduct = await Product.findOneAndUpdate(
-      { name: name },
+      { productID: productID },
       { name: newName },
       { new: true }
     );
@@ -64,12 +65,12 @@ const updateProduct = async (req, res) => {
 //Delete product
 const deleteProduct = async (req, res) => {
   try {
-    const { name } = req.params;
-    const product = await Product.findOneAndDelete({ name: name });
+    const { productID } = req.params;
+    const product = await Product.findOneAndDelete({ productID: productID });
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    res.status(200).json({ message: `${name} deleted successfully` });
+    res.status(200).json({ message: 'Product deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
